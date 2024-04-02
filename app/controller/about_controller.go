@@ -41,3 +41,21 @@ func (ac *AboutController) GetAbout(c *gin.Context) {
 	}
 	utils.SuccessData(c, http.StatusOK, about)
 }
+
+func (ac *AboutController) UpdateAbout(c *gin.Context) {
+	id := c.Param("id")
+
+	var aboutDTO dto.AboutDTO
+	if err := c.ShouldBindJSON(&aboutDTO); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := ac.aboutService.UpdateAbout(id, aboutDTO.Title, aboutDTO.Subtitle, aboutDTO.Description, aboutDTO.Note, aboutDTO.Image); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Mengembalikan respons berhasil
+	utils.SuccessMessage(c, http.StatusOK, "Successfully")
+}

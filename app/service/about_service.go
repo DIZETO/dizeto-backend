@@ -11,6 +11,7 @@ import (
 type AboutService interface {
 	CreateAbout(title, subtitle, description, note, image string) error
 	GetAbout() (*model.About, error)
+	UpdateAbout(id, title, subtitle, description, note, image string) error
 }
 
 type aboutService struct {
@@ -51,4 +52,23 @@ func (as *aboutService) GetAbout() (*model.About, error) {
 	}
 
 	return about, nil
+}
+
+func (as *aboutService) UpdateAbout(id, title, subtitle, description, note, image string) error {
+	about, err := as.aboutRepo.GetAboutByID(id)
+	if err != nil {
+		return err
+	}
+
+	about.Title = title
+	about.Subtitle = subtitle
+	about.Description = description
+	about.Note = note
+	about.Image = image
+
+	if err := as.aboutRepo.UpdateAbout(about); err != nil {
+		return err
+	}
+
+	return nil
 }

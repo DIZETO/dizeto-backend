@@ -9,6 +9,8 @@ import (
 type AboutRepository interface {
 	CreateAbout(about *model.About) error
 	GetAbout() (*model.About, error)
+	GetAboutByID(id string) (*model.About, error)
+	UpdateAbout(about *model.About) error
 }
 
 type aboutRepository struct {
@@ -31,4 +33,20 @@ func (ar *aboutRepository) GetAbout() (*model.About, error) {
 	var about model.About
 	err := ar.db.First(&about).Error
 	return &about, err
+}
+
+func (ar *aboutRepository) GetAboutByID(id string) (*model.About, error) {
+	var about model.About
+	err := ar.db.Where("id = ?", id).First(&about).Error
+	return &about, err
+}
+
+func (ar *aboutRepository) UpdateAbout(about *model.About) error {
+
+	if err := about.Validate(); err != nil {
+		return err
+	}
+
+	err := ar.db.Save(about).Error
+	return err
 }
