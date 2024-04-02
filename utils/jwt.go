@@ -1,25 +1,21 @@
 package utils
 
 import (
+	model "dizeto-backend/app/model/jwt"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 )
 
-var jwtKey = []byte("RAHASIA")
+var jwtKey = []byte("secret")
 
-type Claims struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-	jwt.StandardClaims
-}
-
-func GenerateJWT(username, password string) (string, error) {
+func GenerateJWT(username, password, role string) (string, error) {
 	expirationTime := time.Now().Add(24 * time.Hour) // Token berlaku selama 1 hari
 
-	claims := &Claims{
+	claims := &model.Claims{
 		Username: username,
 		Password: password,
+		Role:     role,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},

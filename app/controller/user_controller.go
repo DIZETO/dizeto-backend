@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"dizeto-backend/app/model/dto"
+	"dizeto-backend/app/model/user/dto"
 	"dizeto-backend/app/service"
 	"dizeto-backend/utils"
 	"net/http"

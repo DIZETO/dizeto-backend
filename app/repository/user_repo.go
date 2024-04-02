@@ -1,9 +1,7 @@
 package repository
 
 import (
-	"dizeto-backend/app/model"
-
-	"github.com/go-playground/validator/v10"
+	model "dizeto-backend/app/model/user"
 
 	"github.com/jinzhu/gorm"
 )
@@ -24,9 +22,7 @@ func NewUserRepository(db *gorm.DB) UserRepository {
 }
 
 func (ur *userRepository) CreateUser(user *model.User) error {
-	validate := validator.New()
-	err := validate.Struct(user)
-	if err != nil {
+	if err := user.Validate(); err != nil {
 		return err
 	}
 
