@@ -1,10 +1,13 @@
 package config
 
 import (
-	"dizeto-backend/app/model"
+	model_about "dizeto-backend/app/model/about"
+	model_user "dizeto-backend/app/model/user"
+	"dizeto-backend/utils"
 	"fmt"
 	"os"
 
+	"github.com/google/uuid"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
@@ -22,9 +25,42 @@ func InitDB() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	if err := db.AutoMigrate(&model.User{}).Error; err != nil {
+	err = db.AutoMigrate(
+		&model_user.User{},
+		&model_about.About{},
+	).Error
+
+	if err != nil {
 		return nil, err
 	}
 
+	// database seeding
+	var users = []model_user.User{}
+	db.Where("role = ?", "admin").Find(&users)
+	fmt.Println(len(users))
+	if len(users) == 0 {
+		err = SeedUsers(db)
+		if err != nil {
+			return nil, err
+		}
+
+	}
+
 	return db, nil
+}
+
+func SeedUsers(db *gorm.DB) error {
+	userID, err := uuid.NewRandom()
+	if err != nil {
+		return err
+	}
+
+	hashedPassword, err := utils.HashPassword("admin")
+	if err != nil {
+		return err
+	}
+	userAdmin := model_user.User{ID: userID, Username: "admin", Password: hashedPassword, FirstName: "Admin", LastName: "Dizeto", Email: "admin@gmail.com", Role: "admin"}
+	db.Create(&userAdmin)
+
+	return nil
 }

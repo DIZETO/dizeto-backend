@@ -1,7 +1,8 @@
 package service
 
 import (
-	"dizeto-backend/app/model"
+	model "dizeto-backend/app/model/user"
+
 	"dizeto-backend/app/repository"
 	"dizeto-backend/utils"
 
@@ -47,6 +48,7 @@ func (us *userService) Register(username, password, first_name, last_name, email
 		FirstName: first_name,
 		LastName:  last_name,
 		Email:     email,
+		Role:      "customer",
 	}
 	err = us.userRepo.CreateUser(newUser)
 	if err != nil {
@@ -69,7 +71,7 @@ func (us *userService) Login(username, password string) (string, error) {
 	}
 
 	// Generate JWT token
-	token, err := utils.GenerateJWT(username, password)
+	token, err := utils.GenerateJWT(username, password, user.Role)
 	if err != nil {
 		return "", err
 	}
