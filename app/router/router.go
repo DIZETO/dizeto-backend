@@ -33,6 +33,7 @@ func SetupRouter(r *gin.Engine, db *gorm.DB) {
 		//about
 		v1.POST("/about", middleware.AuthorizationMiddleware(), aboutController.CreateAbout)
 		v1.GET("/about", aboutController.GetAbout)
+		v1.PUT("/about/:id", middleware.AuthorizationMiddleware(), aboutController.UpdateAbout)
 
 	}
 }
