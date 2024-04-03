@@ -2,6 +2,8 @@ package config
 
 import (
 	model_about "dizeto-backend/app/model/about"
+	model_highlight "dizeto-backend/app/model/highlight_porto"
+	model_pricing "dizeto-backend/app/model/pricing"
 	model_user "dizeto-backend/app/model/user"
 	"dizeto-backend/utils"
 	"fmt"
@@ -28,6 +30,8 @@ func InitDB() (*gorm.DB, error) {
 	err = db.AutoMigrate(
 		&model_user.User{},
 		&model_about.About{},
+		&model_highlight.HighlightPortofolio{},
+		&model_pricing.Pricing{},
 	).Error
 
 	if err != nil {

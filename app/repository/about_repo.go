@@ -8,7 +8,7 @@ import (
 
 type AboutRepository interface {
 	CreateAbout(about *model.About) error
-	GetAbout() (*model.About, error)
+	GetAllAbout() ([]*model.About, error)
 	GetAboutByID(id string) (*model.About, error)
 	UpdateAbout(about *model.About) error
 }
@@ -29,10 +29,10 @@ func (ar *aboutRepository) CreateAbout(about *model.About) error {
 	return nil
 }
 
-func (ar *aboutRepository) GetAbout() (*model.About, error) {
-	var about model.About
+func (ar *aboutRepository) GetAllAbout() ([]*model.About, error) {
+	var about []*model.About
 	err := ar.db.First(&about).Error
-	return &about, err
+	return about, err
 }
 
 func (ar *aboutRepository) GetAboutByID(id string) (*model.About, error) {

@@ -33,13 +33,13 @@ func (ac *AboutController) CreateAbout(c *gin.Context) {
 
 }
 
-func (ac *AboutController) GetAbout(c *gin.Context) {
-	about, err := ac.aboutService.GetAbout()
+func (ac *AboutController) GetAllAbout(c *gin.Context) {
+	responseDTO, err := ac.aboutService.GetAllAbout()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	utils.SuccessData(c, http.StatusOK, about)
+	utils.SuccessData(c, http.StatusOK, responseDTO)
 }
 
 func (ac *AboutController) UpdateAbout(c *gin.Context) {
