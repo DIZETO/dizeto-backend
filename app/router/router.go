@@ -16,18 +16,21 @@ func SetupRouter(r *gin.Engine, db *gorm.DB) {
 	aboutRepo := repository.NewAboutRepository(db)
 	highlightRepo := repository.NewHighlightPortofolio(db)
 	pricingRepo := repository.NewPricingRepository(db)
+	testimoniRepo := repository.NewTestimoniRepository(db)
 
 	// Initialize service
 	userService := service.NewUserService(userRepo)
 	aboutService := service.NewAboutService(aboutRepo)
 	highlightService := service.NewHighlightService(highlightRepo)
 	pricingService := service.NewPricingService(pricingRepo)
+	testimoniService := service.NewTestimoniService(testimoniRepo)
 
 	// Initialize controller
 	userController := controller.NewUserController(userService)
 	aboutController := controller.NewAboutController(aboutService)
 	highlightController := controller.NewHighlightController(highlightService)
 	pricingController := controller.NewPricingController(pricingService)
+	testimoniController := controller.NewTestimoniController(testimoniService)
 
 	// Routes
 	v1 := r.Group("/api/v1")
@@ -51,5 +54,10 @@ func SetupRouter(r *gin.Engine, db *gorm.DB) {
 		v1.POST("/pricing", middleware.AuthorizationMiddleware(), pricingController.CreatePricing)
 		v1.GET("/pricing", pricingController.GetAllPricing)
 		v1.PUT("/pricing/:id", middleware.AuthorizationMiddleware(), pricingController.UpdatePricing)
+
+		//testimoni
+		v1.POST("/testimoni", middleware.AuthorizationMiddleware(), testimoniController.CreateTestimoni)
+		v1.GET("/testimoni", testimoniController.GetAllTestimoni)
+		v1.PUT("/testimoni/:id", middleware.AuthorizationMiddleware(), testimoniController.UpdateTestimoni)
 	}
 }

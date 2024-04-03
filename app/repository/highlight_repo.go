@@ -25,7 +25,10 @@ func (hr *highlightRepository) CreateHighlight(highlight *model.HighlightPortofo
 	if err := highlight.Validate(); err != nil {
 		return err
 	}
-	hr.db.Create(highlight)
+	err := hr.db.Create(highlight).Error
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

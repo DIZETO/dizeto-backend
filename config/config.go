@@ -4,6 +4,7 @@ import (
 	model_about "dizeto-backend/app/model/about"
 	model_highlight "dizeto-backend/app/model/highlight_porto"
 	model_pricing "dizeto-backend/app/model/pricing"
+	model_testimoni "dizeto-backend/app/model/testimoni"
 	model_user "dizeto-backend/app/model/user"
 	"dizeto-backend/utils"
 	"fmt"
@@ -32,6 +33,7 @@ func InitDB() (*gorm.DB, error) {
 		&model_about.About{},
 		&model_highlight.HighlightPortofolio{},
 		&model_pricing.Pricing{},
+		&model_testimoni.Testimoni{},
 	).Error
 
 	if err != nil {

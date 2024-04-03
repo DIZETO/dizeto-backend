@@ -25,7 +25,10 @@ func (pr *pricingRepository) CreatePricing(pricing *model.Pricing) error {
 	if err := pricing.Validate(); err != nil {
 		return err
 	}
-	pr.db.Create(pricing)
+	err := pr.db.Create(pricing).Error
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

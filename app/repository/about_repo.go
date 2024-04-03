@@ -25,7 +25,10 @@ func (ar *aboutRepository) CreateAbout(about *model.About) error {
 	if err := about.Validate(); err != nil {
 		return err
 	}
-	ar.db.Create(about)
+	err := ar.db.Create(about).Error
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

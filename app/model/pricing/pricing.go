@@ -18,9 +18,9 @@ type Pricing struct {
 	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }
 
-func (a *Pricing) Validate() error {
+func (p *Pricing) Validate() error {
 	validate := validator.New()
-	err := validate.Struct(a)
+	err := validate.Struct(p)
 	if err != nil {
 		return err
 	}
