@@ -2,6 +2,7 @@ package config
 
 import (
 	model_about "dizeto-backend/app/model/about"
+	model_counting "dizeto-backend/app/model/counting"
 	model_highlight "dizeto-backend/app/model/highlight_porto"
 	model_pricing "dizeto-backend/app/model/pricing"
 	model_testimoni "dizeto-backend/app/model/testimoni"
@@ -34,6 +35,7 @@ func InitDB() (*gorm.DB, error) {
 		&model_highlight.HighlightPortofolio{},
 		&model_pricing.Pricing{},
 		&model_testimoni.Testimoni{},
+		&model_counting.Counting{},
 	).Error
 
 	if err != nil {

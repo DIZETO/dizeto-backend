@@ -17,6 +17,7 @@ func SetupRouter(r *gin.Engine, db *gorm.DB) {
 	highlightRepo := repository.NewHighlightPortofolio(db)
 	pricingRepo := repository.NewPricingRepository(db)
 	testimoniRepo := repository.NewTestimoniRepository(db)
+	countingRepo := repository.NewCountingRepository(db)
 
 	// Initialize service
 	userService := service.NewUserService(userRepo)
@@ -24,6 +25,7 @@ func SetupRouter(r *gin.Engine, db *gorm.DB) {
 	highlightService := service.NewHighlightService(highlightRepo)
 	pricingService := service.NewPricingService(pricingRepo)
 	testimoniService := service.NewTestimoniService(testimoniRepo)
+	countingService := service.NewCountingService(countingRepo)
 
 	// Initialize controller
 	userController := controller.NewUserController(userService)
@@ -31,6 +33,7 @@ func SetupRouter(r *gin.Engine, db *gorm.DB) {
 	highlightController := controller.NewHighlightController(highlightService)
 	pricingController := controller.NewPricingController(pricingService)
 	testimoniController := controller.NewTestimoniController(testimoniService)
+	countingController := controller.NewCountingController(countingService)
 
 	// Routes
 	v1 := r.Group("/api/v1")
@@ -59,5 +62,10 @@ func SetupRouter(r *gin.Engine, db *gorm.DB) {
 		v1.POST("/testimoni", middleware.AuthorizationMiddleware(), testimoniController.CreateTestimoni)
 		v1.GET("/testimoni", testimoniController.GetAllTestimoni)
 		v1.PUT("/testimoni/:id", middleware.AuthorizationMiddleware(), testimoniController.UpdateTestimoni)
+
+		//counting
+		v1.POST("/counting", middleware.AuthorizationMiddleware(), countingController.CreateCounting)
+		v1.GET("/counting", countingController.GetAllCounting)
+		v1.PUT("/counting/:id", middleware.AuthorizationMiddleware(), countingController.UpdateCounting)
 	}
 }
