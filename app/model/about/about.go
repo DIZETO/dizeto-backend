@@ -14,6 +14,7 @@ type About struct {
 	Description string    `gorm:"not null" json:"description" validate:"required"`
 	Note        string    `gorm:"not null" json:"note"`
 	Image       string    `gorm:"not null" json:"image"`
+	PageID      uint      `json:"page_id"`
 	CreatedAt   time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt   time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }

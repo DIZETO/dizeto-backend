@@ -2,6 +2,7 @@ package service
 
 import (
 	model "dizeto-backend/app/model/about"
+	"dizeto-backend/app/model/about/dto"
 
 	"dizeto-backend/app/repository"
 
@@ -10,7 +11,7 @@ import (
 
 type AboutService interface {
 	CreateAbout(title, subtitle, description, note, image string) error
-	GetAbout() (*model.About, error)
+	GetAllAbout() (*dto.ResponseAboutsDTO, error)
 	UpdateAbout(id, title, subtitle, description, note, image string) error
 }
 
@@ -34,6 +35,7 @@ func (as *aboutService) CreateAbout(title, subtitle, description, note, image st
 		Description: description,
 		Note:        note,
 		Image:       image,
+		PageID:      1,
 	}
 
 	// Save new about to repository
@@ -45,13 +47,29 @@ func (as *aboutService) CreateAbout(title, subtitle, description, note, image st
 	return nil
 }
 
-func (as *aboutService) GetAbout() (*model.About, error) {
-	about, err := as.aboutRepo.GetAbout()
+func (as *aboutService) GetAllAbout() (*dto.ResponseAboutsDTO, error) {
+	abouts, err := as.aboutRepo.GetAllAbout()
 	if err != nil {
 		return nil, err
 	}
 
-	return about, nil
+	var aboutDTOs []*dto.ResponseDTO
+	for _, p := range abouts {
+		aboutDTO := &dto.ResponseDTO{
+			ID:          p.ID,
+			Title:       p.Title,
+			Subtitle:    p.Subtitle,
+			Description: p.Description,
+			Note:        p.Note,
+			Image:       p.Image,
+		}
+		aboutDTOs = append(aboutDTOs, aboutDTO)
+	}
+
+	responseDTO := &dto.ResponseAboutsDTO{
+		Abouts: aboutDTOs,
+	}
+	return responseDTO, nil
 }
 
 func (as *aboutService) UpdateAbout(id, title, subtitle, description, note, image string) error {

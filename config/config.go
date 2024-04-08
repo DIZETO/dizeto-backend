@@ -2,6 +2,12 @@ package config
 
 import (
 	model_about "dizeto-backend/app/model/about"
+	model_client "dizeto-backend/app/model/client"
+	model_counting "dizeto-backend/app/model/counting"
+	model_highlight "dizeto-backend/app/model/highlight_porto"
+	model_page "dizeto-backend/app/model/page"
+	model_pricing "dizeto-backend/app/model/pricing"
+	model_testimoni "dizeto-backend/app/model/testimoni"
 	model_user "dizeto-backend/app/model/user"
 	"dizeto-backend/utils"
 	"fmt"
@@ -28,13 +34,19 @@ func InitDB() (*gorm.DB, error) {
 	err = db.AutoMigrate(
 		&model_user.User{},
 		&model_about.About{},
+		&model_highlight.HighlightPortofolio{},
+		&model_pricing.Pricing{},
+		&model_testimoni.Testimoni{},
+		&model_counting.Counting{},
+		&model_client.Client{},
+		&model_page.Page{},
 	).Error
 
 	if err != nil {
 		return nil, err
 	}
 
-	// database seeding
+	// database user seeding
 	var users = []model_user.User{}
 	db.Where("role = ?", "admin").Find(&users)
 	fmt.Println(len(users))
@@ -43,7 +55,17 @@ func InitDB() (*gorm.DB, error) {
 		if err != nil {
 			return nil, err
 		}
+	}
 
+	// database user seeding
+	var page = []model_page.Page{}
+	db.Where("id = ?", 1).Find(&page)
+	fmt.Println(len(page))
+	if len(page) == 0 {
+		err = SeedPage(db)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return db, nil
@@ -62,5 +84,13 @@ func SeedUsers(db *gorm.DB) error {
 	userAdmin := model_user.User{ID: userID, Username: "admin", Password: hashedPassword, FirstName: "Admin", LastName: "Dizeto", Email: "admin@gmail.com", Role: "admin"}
 	db.Create(&userAdmin)
 
+	return nil
+}
+
+func SeedPage(db *gorm.DB) error {
+	pageID := 1
+
+	page := model_page.Page{ID: uint(pageID), Title: "Page 1"}
+	db.Create(&page)
 	return nil
 }
