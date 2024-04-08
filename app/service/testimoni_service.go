@@ -34,6 +34,7 @@ func (ts *testimoniService) CreateTestimoni(image, name, event, comment string) 
 		Name:    name,
 		Event:   event,
 		Comment: comment,
+		PageID:  1,
 	}
 
 	// Save new testimoni to repository

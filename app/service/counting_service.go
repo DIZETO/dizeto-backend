@@ -33,6 +33,7 @@ func (cs *countingService) CreateCounting(happy_client, completed_projects, subs
 		HappyClient:       happy_client,
 		CompletedProjects: completed_projects,
 		Subscribers:       subscribers,
+		PageID:            1,
 	}
 
 	// Save new counting to repository

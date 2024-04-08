@@ -30,9 +30,10 @@ func (hs *highlightService) CreateHighlight(title, image string) error {
 
 	// Create new highlight
 	newHighlight := &model.HighlightPortofolio{
-		ID:    highlightID,
-		Title: title,
-		Image: image,
+		ID:     highlightID,
+		Title:  title,
+		Image:  image,
+		PageID: 1,
 	}
 
 	// Save new highlight to repository

@@ -35,6 +35,7 @@ func (as *aboutService) CreateAbout(title, subtitle, description, note, image st
 		Description: description,
 		Note:        note,
 		Image:       image,
+		PageID:      1,
 	}
 
 	// Save new about to repository

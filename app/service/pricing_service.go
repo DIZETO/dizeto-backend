@@ -35,6 +35,7 @@ func (ps *pricingService) CreatePricing(title, paket, category, item_list string
 		Paket:    paket,
 		Category: category,
 		ItemList: item_list,
+		PageID:   1,
 	}
 
 	// Save new pricing to repository

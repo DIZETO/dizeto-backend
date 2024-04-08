@@ -13,6 +13,7 @@ type Testimoni struct {
 	Name      string    `gorm:"not null" json:"name" validate:"required,max=255"`
 	Event     string    `gorm:"not null" json:"event" validate:"required,max=255"`
 	Comment   string    `gorm:"not null" json:"comment" validate:"required"`
+	PageID    uint      `json:"page_id"`
 	CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }

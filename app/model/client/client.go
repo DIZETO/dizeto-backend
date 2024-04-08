@@ -7,21 +7,18 @@ import (
 	"github.com/google/uuid"
 )
 
-type Pricing struct {
+type Client struct {
 	ID        uuid.UUID `gorm:"type:uuid;primary_key;" json:"id"`
 	Title     string    `gorm:"not null" json:"title" validate:"required,min=3,max=255"`
-	Price     uint      `gorm:"not null" json:"price" validate:"required"`
-	Paket     string    `gorm:"not null" json:"paket" validate:"required"`
-	Category  string    `gorm:"not null" json:"category"`
-	ItemList  string    `gorm:"not null" json:"item_list"`
+	Image     string    `gorm:"not null" json:"image"`
 	PageID    uint      `json:"page_id"`
 	CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }
 
-func (p *Pricing) Validate() error {
+func (c *Client) Validate() error {
 	validate := validator.New()
-	err := validate.Struct(p)
+	err := validate.Struct(c)
 	if err != nil {
 		return err
 	}

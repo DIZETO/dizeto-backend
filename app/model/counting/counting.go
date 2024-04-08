@@ -12,6 +12,7 @@ type Counting struct {
 	HappyClient       uint      `gorm:"not null" json:"happy_client" validate:"required`
 	CompletedProjects uint      `gorm:"not null" json:"completed_projects" validate:"required`
 	Subscribers       uint      `gorm:"not null" json:"subscribers" validate:"required`
+	PageID            uint      `json:"page_id"`
 	CreatedAt         time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt         time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }

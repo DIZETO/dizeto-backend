@@ -33,9 +33,9 @@ func (hr *highlightRepository) CreateHighlight(highlight *model.HighlightPortofo
 }
 
 func (hr *highlightRepository) GetAllHighlight() ([]*model.HighlightPortofolio, error) {
-	var highlight []*model.HighlightPortofolio
-	err := hr.db.First(&highlight).Error
-	return highlight, err
+	var highlights []*model.HighlightPortofolio
+	err := hr.db.Find(&highlights).Error
+	return highlights, err
 }
 
 func (hr *highlightRepository) GetHighlightByID(id string) (*model.HighlightPortofolio, error) {

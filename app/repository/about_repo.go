@@ -34,7 +34,7 @@ func (ar *aboutRepository) CreateAbout(about *model.About) error {
 
 func (ar *aboutRepository) GetAllAbout() ([]*model.About, error) {
 	var about []*model.About
-	err := ar.db.First(&about).Error
+	err := ar.db.Find(&about).Error
 	return about, err
 }
 

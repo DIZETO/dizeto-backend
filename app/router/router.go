@@ -18,6 +18,8 @@ func SetupRouter(r *gin.Engine, db *gorm.DB) {
 	pricingRepo := repository.NewPricingRepository(db)
 	testimoniRepo := repository.NewTestimoniRepository(db)
 	countingRepo := repository.NewCountingRepository(db)
+	clientRepo := repository.NewClientRepository(db)
+	pageRepo := repository.NewLandingRepository(db)
 
 	// Initialize service
 	userService := service.NewUserService(userRepo)
@@ -26,6 +28,8 @@ func SetupRouter(r *gin.Engine, db *gorm.DB) {
 	pricingService := service.NewPricingService(pricingRepo)
 	testimoniService := service.NewTestimoniService(testimoniRepo)
 	countingService := service.NewCountingService(countingRepo)
+	clientService := service.NewClientService(clientRepo)
+	pageService := service.NewLandingService(pageRepo)
 
 	// Initialize controller
 	userController := controller.NewUserController(userService)
@@ -34,6 +38,8 @@ func SetupRouter(r *gin.Engine, db *gorm.DB) {
 	pricingController := controller.NewPricingController(pricingService)
 	testimoniController := controller.NewTestimoniController(testimoniService)
 	countingController := controller.NewCountingController(countingService)
+	clientController := controller.NewClientController(clientService)
+	pageController := controller.NewLandingController(pageService)
 
 	// Routes
 	v1 := r.Group("/api/v1")
@@ -67,5 +73,13 @@ func SetupRouter(r *gin.Engine, db *gorm.DB) {
 		v1.POST("/counting", middleware.AuthorizationMiddleware(), countingController.CreateCounting)
 		v1.GET("/counting", countingController.GetAllCounting)
 		v1.PUT("/counting/:id", middleware.AuthorizationMiddleware(), countingController.UpdateCounting)
+
+		//client
+		v1.POST("/client", middleware.AuthorizationMiddleware(), clientController.CreateClient)
+		v1.GET("/client", clientController.GetAllClient)
+		v1.PUT("/client/:id", middleware.AuthorizationMiddleware(), clientController.UpdateClient)
+
+		//landing page
+		v1.GET("/landing-page", pageController.GetLandingPage)
 	}
 }
